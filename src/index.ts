@@ -48,17 +48,17 @@ app.use('/api', generalLimiter);
 
 // Middlewares globales
 // Configurar CORS - permitir acceso desde red local en desarrollo
-const allowedOrigins = process.env.FRONTEND_URL 
+const allowedOrigins = process.env.FRONTEND_URL
     ? process.env.FRONTEND_URL.split(',').map(url => url.trim())
     : ['http://localhost:5173', 'http://localhost:3000'];
 
 app.use(cors({
-    origin: (origin, callback) => {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
         // Permitir requests sin origin (mobile apps, Postman, etc.)
         if (!origin) {
             return callback(null, true);
         }
-        
+
         // En desarrollo, permitir cualquier origen de red local (192.168.x.x, 10.x.x.x, etc.)
         if (process.env.NODE_ENV !== 'production') {
             const isLocalNetwork = /^http:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?$/.test(origin);
@@ -66,7 +66,7 @@ app.use(cors({
                 return callback(null, true);
             }
         }
-        
+
         if (allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -85,7 +85,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Middleware para logging de peticiones con Winston
 app.use((req, res, next) => {
     const start = Date.now();
-    
+
     res.on('finish', () => {
         const duration = Date.now() - start;
         logger.info('HTTP Request', {
@@ -96,7 +96,7 @@ app.use((req, res, next) => {
             ip: req.ip,
         });
     });
-    
+
     next();
 });
 
@@ -150,7 +150,7 @@ app.listen(PORT, () => {
         url: `http://0.0.0.0:${PORT}`,
         environment: process.env.NODE_ENV || 'development',
     });
-    
+
     console.log('='.repeat(50));
     console.log('🚛 SISTEMA DE CONTROL DE TRANSPORTE');
     console.log('='.repeat(50));
