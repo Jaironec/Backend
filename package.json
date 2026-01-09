@@ -2,11 +2,11 @@
     "name": "transporte-backend",
     "version": "1.0.0",
     "description": "Backend para sistema de control de transporte de carga pesada",
-    "main": "dist/index.js",
+    "main": "dist/src/index.js",
     "scripts": {
         "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
         "build": "tsc",
-        "start": "node dist/index.js",
+        "start": "node dist/src/index.js",
         "prisma:generate": "prisma generate",
         "prisma:migrate": "prisma migrate dev",
         "prisma:studio": "prisma studio",
