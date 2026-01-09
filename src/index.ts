@@ -39,6 +39,9 @@ import { iniciarTareasProgramadas } from './services/scheduler.service';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Configuración para Render (y otros proxies)
+app.set('trust proxy', 1);
+
 // Middlewares de seguridad (DEBEN ir primero)
 // Helmet: Headers de seguridad HTTP
 app.use(helmetConfig);
